@@ -7,16 +7,22 @@ on:
   push:
     branches:
       - main
-  workflow_dispatch:
+      
+
 
 jobs:
+  
   build:
     runs-on: ubuntu-latest
-    working-directory: source/webapi
-
+    
+    defaults:
+        run:
+          working-directory:  source/webapi
+          
     steps:
+       
       - uses: actions/checkout@v4
-
+      
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v4
         with:
