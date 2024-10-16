@@ -26,7 +26,7 @@ namespace server.Models
 
             foreach (var entity in entities)
             {
-                var now = DateTime.UtcNow; // current datetime
+                var now = DateTime.UtcNow;
 
                 if (entity.State == EntityState.Added)
                 {
