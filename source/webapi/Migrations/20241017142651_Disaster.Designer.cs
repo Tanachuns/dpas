@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using server.Models;
@@ -11,9 +12,11 @@ using server.Models;
 namespace webapi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241017142651_Disaster")]
+    partial class Disaster
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -36,7 +39,7 @@ namespace webapi.Migrations
                     b.Property<string>("DisasterType")
                         .HasColumnType("text");
 
-                    b.Property<string>("RegionId")
+                    b.Property<string>("RegionID")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -47,8 +50,6 @@ namespace webapi.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("RegionId");
 
                     b.ToTable("AlertSettings");
                 });
@@ -62,7 +63,6 @@ namespace webapi.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string[]>("DisasterTypes")
-                        .IsRequired()
                         .HasColumnType("text[]");
 
                     b.Property<decimal>("Latitude")
@@ -77,17 +77,6 @@ namespace webapi.Migrations
                     b.HasKey("RegionId");
 
                     b.ToTable("Regions");
-                });
-
-            modelBuilder.Entity("webapi.Models.Entities.AlertSettingEntity", b =>
-                {
-                    b.HasOne("webapi.Models.Entities.RegionEntity", "RegionID")
-                        .WithMany()
-                        .HasForeignKey("RegionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("RegionID");
                 });
 #pragma warning restore 612, 618
         }

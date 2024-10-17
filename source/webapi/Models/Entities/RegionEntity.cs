@@ -12,7 +12,7 @@ public class RegionEntity : BaseEntity
     public decimal Latitude { get; set; }
     public decimal Longitude { get; set; }
     //Disaster Types: List of disaster types to monitor (e.g., flood, wildfire, earthquake).
-    public string[]? DisasterTypes { get; set; }
+    public string[] DisasterTypes { get; set; } = [];
 }
 
 
