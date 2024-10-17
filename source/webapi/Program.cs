@@ -1,17 +1,15 @@
 using Microsoft.ApplicationInsights.Extensibility;
 using Serilog;
 using Serilog.Sinks.OpenTelemetry;
-var config = new ConfigurationBuilder()
-        .AddJsonFile("appsettings.json", optional: false)
-        .Build();
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
+IConfiguration configuration = builder.Configuration;
 //Logs
 Log.Logger = new LoggerConfiguration()
-    .WriteTo.ApplicationInsights(config.GetSection("ConnectionStrings:LogConnection").ToString(),
+    .WriteTo.ApplicationInsights(configuration["ConnectionStrings:LogConnection"],
     TelemetryConverter.Events)
     .CreateLogger();
 
