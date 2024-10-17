@@ -1,3 +1,5 @@
+# TT-SS
+
 # Disaster Prediction and Alert System API
 
 ## Scenario
@@ -44,10 +46,18 @@ Github Repository: https://github.com/Tanachuns/dpa-api
 
 Presentation Video: NA
 
-## Updated Tasks
+## Todos
 
 - [x] Init project
 - [x] Setup CI/CD
+- [x] Setup Database
+- [ ] Setup Logs Integrated with Azure
+- [ ] Setup redis
+- [ ] [POST] /api/regions
+- [ ] [POST] /api/alert-settings
+- [ ] [GET] /api/disaster-risks
+- [ ] [POST] /api/alerts/send
+- [ ] [GET] /api/alerts
 
 ## Knowledge Reference
 
@@ -55,3 +65,4 @@ Presentation Video: NA
 - [A Comprehensive Guide to Configuring Logging with Serilog and Azure App Insights in .NET | by Shazni Shiraz | Ascentic Technology | Medium](https://medium.com/ascentic-technology/a-comprehensive-guide-to-configuring-logging-with-serilog-and-azure-app-insights-in-net-f6e4bda69e76)
 - [[C#] .netCore + redis caching | by Macus.y | Medium](https://rugby4.medium.com/c-netcore-redis-caching-e3c1c5c95957)
 - [Tutorial: Containerize a .NET app](https://learn.microsoft.com/en-us/dotnet/core/docker/build-container?tabs=linux&pivots=dotnet-8-0)
+- [Cache Strategies | Medium](https://medium.com/@mmoshikoo/cache-strategies-996e91c80303)
