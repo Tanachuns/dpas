@@ -24,7 +24,7 @@ public class DPAController : Controller
         try
         {
             //Request Log
-            Log.Information("Request", request);
+            Log.Information("Request {request}", request);
             // > Setup Context
             var ctx = new AppDbContext(Configuration);
             // ====== Loop ======
