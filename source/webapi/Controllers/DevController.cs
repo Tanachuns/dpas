@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 using server.Models;
 using webapi.Models;
 using webapi.Models.Entities;
@@ -19,6 +20,7 @@ public class DevController : Controller
     [Route("/api/regions")]
     public IActionResult Get()
     {
+        Log.Information("test");
         var ctx = new AppDbContext(Configuration);
         RegionEntity[] region = ctx.Regions.ToArray();
         return Ok(region);
