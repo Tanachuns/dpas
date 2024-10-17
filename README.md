@@ -51,7 +51,7 @@ Presentation Video: NA
 - [x] Init project
 - [x] Setup CI/CD
 - [x] Setup Database
-- [ ] Setup Logs Integrated with Azure
+- [x] Setup Logs Integrated with Azure
 - [ ] Setup redis
 - [ ] [POST] /api/regions
 - [ ] [POST] /api/alert-settings
