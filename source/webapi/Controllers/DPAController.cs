@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Newtonsoft.Json;
 using Serilog;
@@ -100,6 +101,37 @@ public class DPAController : Controller
             int changes = ctx.SaveChanges();
             Log.Information("Create Success, {changes} Rows Affected", changes);
             return Created("/api/regions", new BaseResponse(true));
+        }
+        catch (Exception ex)
+        {
+            Log.Error("Error Message: {ErrorMessage}", ex.Message);
+            return Problem(ex.Message);
+        }
+    }
+
+    [HttpGet]
+    [Route("/api/disaster-risks")]
+    public async Task<IActionResult> FectchDisaster()
+    {
+        try
+        {
+            // Setup Ctx
+            AppDbContext ctx = new AppDbContext(Configuration);
+            // Chche here
+            // get all regions
+            AlertSettingEntity[] alerts = ctx.AlertSettings.Include(a => a.RegionID).ToArray();
+            //loop
+            foreach (AlertSettingEntity alert in alerts)
+            {
+                AlertEntity alertEntity = new AlertEntity() { RegionId = alert.RegionID };
+                alertEntity.DisasterType = alert.DisasterType;
+                alertEntity.RiskScore = await RiskCalculationService.CalcurateAsync(Configuration, alert.DisasterType, alert.RegionID.Latitude, alert.RegionID.Longitude);
+                alertEntity.AlertTriggered = false;
+                alertEntity.RiskLevel = RiskCalculationService.GetLevel(alert.ThresholdScore, alertEntity.RiskScore);
+                ctx.Alerts.Add(alertEntity);
+            }
+            ctx.SaveChanges();
+            return Ok(ctx.Alerts.ToArray());
         }
         catch (Exception ex)
         {

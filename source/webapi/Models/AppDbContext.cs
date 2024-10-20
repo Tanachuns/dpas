@@ -12,6 +12,7 @@ namespace server.Models
         }
         public DbSet<RegionEntity> Regions { get; set; }
         public DbSet<AlertSettingEntity> AlertSettings { get; set; }
+        public DbSet<AlertEntity> Alerts { get; set; }
 
         public override int SaveChanges()
         {

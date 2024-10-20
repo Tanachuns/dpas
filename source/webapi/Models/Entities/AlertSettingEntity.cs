@@ -1,11 +1,12 @@
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace webapi.Models.Entities;
 
 public class AlertSettingEntity : BaseEntity
 {
 
-
+    [JsonIgnore]
     public int Id { get; set; }
     //Region ID: Identifier for the region.
     public required RegionEntity RegionID { get; set; }
