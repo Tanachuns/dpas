@@ -91,9 +91,12 @@ public class DPAController : Controller
                     return BadRequest(res);
                 }
 
-                AlertSettingEntity alert = new AlertSettingEntity() { RegionID = region };
-                alert.DisasterType = req.DisasterType;
-                alert.ThresholdScore = req.ThresholdScore;
+                AlertSettingEntity alert = new AlertSettingEntity()
+                {
+                    RegionID = region,
+                    DisasterType = req.DisasterType,
+                    ThresholdScore = req.ThresholdScore
+                };
                 ctx.AlertSettings.Add(alert);
 
             }
@@ -121,6 +124,7 @@ public class DPAController : Controller
             // get all Alert
             AlertSettingEntity[] alerts = ctx.AlertSettings.Include(a => a.RegionID).ToArray();
             //loop
+            List<AlertEntity> alertEntities = new List<AlertEntity>();
             foreach (AlertSettingEntity alert in alerts)
             {
                 AlertEntity alertEntity = new AlertEntity()
@@ -131,11 +135,12 @@ public class DPAController : Controller
                     AlertTriggered = false,
                 };
                 alertEntity.RiskLevel = RiskCalculationService.GetLevel(alert.ThresholdScore, alertEntity.RiskScore);
-                ctx.Alerts.Add(alertEntity);
+                alertEntities.Add(alertEntity);
             }
+            ctx.Alerts.AddRange(alertEntities);
             ctx.SaveChanges();
 
-            return Ok(ctx.Alerts.Select(a => new DisasterRiskResponse(a)).ToArray());
+            return Ok(alertEntities.Select(a => new DisasterRiskResponse(a)).ToArray());
         }
         catch (Exception ex)
         {

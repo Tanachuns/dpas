@@ -1,5 +1,3 @@
-# TT-SS
-
 # Disaster Prediction and Alert System API
 
 ## Scenario
@@ -31,11 +29,6 @@ You are tasked with building a Disaster Prediction and Alert System API for a go
 
 **Others:** Notion, Docker, Github
 
-## External APIs
-
-- Weather: https://openweathermap.org/
-- Messaging API: https://sendgrid.com/
-
 ## Submission
 
 Start Date: 15/10/24
@@ -46,6 +39,8 @@ Github Repository: https://github.com/Tanachuns/dpa-api
 
 Presentation Video: NA
 
+API Url:
+
 ## Todos
 
 - [x] Init project
@@ -53,11 +48,24 @@ Presentation Video: NA
 - [x] Setup Database
 - [x] Setup Logs Integrated with Azure
 - [ ] Setup redis
-- [ ] [POST] /api/regions
-- [ ] [POST] /api/alert-settings
-- [ ] [GET] /api/disaster-risks
+- [x] [POST] /api/regions
+- [x] [POST] /api/alert-settings
+- [x] [GET] /api/disaster-risks
 - [ ] [POST] /api/alerts/send
 - [ ] [GET] /api/alerts
+
+## API Ref
+
+https://earthquake.usgs.gov/fdsnws/event/1/
+
+- Weather: https://openweathermap.org/
+- Messaging API: https://sendgrid.com/
+
+## Risk Level
+
+- Low = score < threshold / 3
+- Mid = score < threshold \* (2 / 3)
+- High = score >= threshold
 
 ## Knowledge Reference
 
@@ -66,3 +74,4 @@ Presentation Video: NA
 - [[C#] .netCore + redis caching | by Macus.y | Medium](https://rugby4.medium.com/c-netcore-redis-caching-e3c1c5c95957)
 - [Tutorial: Containerize a .NET app](https://learn.microsoft.com/en-us/dotnet/core/docker/build-container?tabs=linux&pivots=dotnet-8-0)
 - [Cache Strategies | Medium](https://medium.com/@mmoshikoo/cache-strategies-996e91c80303)
+- [Enable Azure Monitor OpenTelemetry for .NET, Java, Node.js, and Python applications - Azure Monitor | Microsoft Learn](https://learn.microsoft.com/en-us/azure/azure-monitor/app/opentelemetry-enable?tabs=aspnetcore#enable-azure-monitor-opentelemetry-for-net-nodejs-python-and-java-applications)

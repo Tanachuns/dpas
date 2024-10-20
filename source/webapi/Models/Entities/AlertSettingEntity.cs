@@ -11,9 +11,9 @@ public class AlertSettingEntity : BaseEntity
     //Region ID: Identifier for the region.
     public required RegionEntity RegionID { get; set; }
     //Disaster Type: Type of disaster (must match one monitored by the region).
-    public string? DisasterType { get; set; }
+    public required string DisasterType { get; set; }
     //Threshold Score: Risk score threshold that triggers an alert for this disaster type.
-    public int ThresholdScore { get; set; }
+    public required int ThresholdScore { get; set; }
 
 
 
