@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
+using webapi.Models;
 using webapi.Models.Entities;
 
 public class AlertEntity : BaseEntity
@@ -16,4 +17,6 @@ public class AlertEntity : BaseEntity
     public string? RiskLevel { get; set; } //High - Medium - Low
                                            //AlertTriggered
     public bool AlertTriggered { get; set; } = false;
+
+
 }

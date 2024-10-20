@@ -117,21 +117,25 @@ public class DPAController : Controller
         {
             // Setup Ctx
             AppDbContext ctx = new AppDbContext(Configuration);
-            // Chche here
-            // get all regions
+            // Cache here
+            // get all Alert
             AlertSettingEntity[] alerts = ctx.AlertSettings.Include(a => a.RegionID).ToArray();
             //loop
             foreach (AlertSettingEntity alert in alerts)
             {
-                AlertEntity alertEntity = new AlertEntity() { RegionId = alert.RegionID };
-                alertEntity.DisasterType = alert.DisasterType;
-                alertEntity.RiskScore = await RiskCalculationService.CalcurateAsync(Configuration, alert.DisasterType, alert.RegionID.Latitude, alert.RegionID.Longitude);
-                alertEntity.AlertTriggered = false;
+                AlertEntity alertEntity = new AlertEntity()
+                {
+                    RegionId = alert.RegionID,
+                    DisasterType = alert.DisasterType,
+                    RiskScore = await RiskCalculationService.CalcurateAsync(Configuration, alert.DisasterType, alert.RegionID.Latitude, alert.RegionID.Longitude),
+                    AlertTriggered = false,
+                };
                 alertEntity.RiskLevel = RiskCalculationService.GetLevel(alert.ThresholdScore, alertEntity.RiskScore);
                 ctx.Alerts.Add(alertEntity);
             }
             ctx.SaveChanges();
-            return Ok(ctx.Alerts.ToArray());
+
+            return Ok(ctx.Alerts.Select(a => new DisasterRiskResponse(a)).ToArray());
         }
         catch (Exception ex)
         {

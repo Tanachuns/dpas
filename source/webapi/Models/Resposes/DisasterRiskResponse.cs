@@ -7,14 +7,23 @@ namespace webapi.Models
     public class DisasterRiskResponse
     {
         //RegionId
-        public required string RegionId { get; set; }
+        public string RegionId { get; set; }
         //DisasterType
         public string? DisasterType { get; set; }
         //RiskScore
-        public int RiskScore { get; set; }
+        public decimal RiskScore { get; set; }
         //RiskLevel
         public string? RiskLevel { get; set; } //High - Medium - Low
         //AlertTriggered
         public bool AlertTriggered { get; set; }
+        public DisasterRiskResponse(AlertEntity alert)
+        {
+            RegionId = alert.RegionId.RegionId;
+            DisasterType = alert.DisasterType;
+            RiskScore = alert.RiskScore;
+            RiskLevel = alert.RiskLevel;
+            AlertTriggered = alert.AlertTriggered;
+        }
     }
+
 }
