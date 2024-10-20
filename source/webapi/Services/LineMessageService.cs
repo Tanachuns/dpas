@@ -15,10 +15,10 @@ class LineMessageService
 
     }
 
-    public class LineMessageRequest
+    public class LineMessageRequest(string msg)
     {
         public string Type { get; set; } = "text";
-        public required string Text { get; set; }
+        public string Text { get; set; } = msg;
     }
 
     public async Task<bool> Broadcast(LineMessageConfig config, AlertEntity[] alerts)
@@ -32,9 +32,17 @@ class LineMessageService
             string token = await GetTokenAsync(config);
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-            LineMessageRequest[] lineMessages = [new LineMessageRequest() { Text = "Test" }];
-            HttpContent jsonContent = JsonContent.Create(lineMessages);
-            var response = await client.PostAsync("/bot/message/broadcast", jsonContent);
+            List<LineMessageRequest> lineMessages = [];
+            foreach (var alert in alerts)
+            {
+                string msg = $"{alert.RegionId.RegionId} has {alert.DisasterType} Risk!";
+                lineMessages.Add(new LineMessageRequest(msg));
+            }
+            HttpContent jsonContent = JsonContent.Create(new
+            {
+                Messages = lineMessages
+            });
+            var response = await client.PostAsync("/v2/bot/message/broadcast", jsonContent);
 
             return response.IsSuccessStatusCode;
         }
@@ -46,15 +54,14 @@ class LineMessageService
         using (var client = new HttpClient())
         {
 
-            var formData = new FormUrlEncodedContent(new[]
-            {
+            var formData = new FormUrlEncodedContent([
                 new KeyValuePair<string, string>("grant_type", "client_credentials"),
                 new KeyValuePair<string, string>("client_id",config.ClientId),
-                new KeyValuePair<string, string>("client_secret", config.ClientSecret),
-            });
+                new KeyValuePair<string, string>("client_secret", config.ClientSecret)]
+            );
 
             client.BaseAddress = new Uri(config.BaseUrl);
-            var response = await client.PostAsync("/oauth/accessToken", formData);
+            var response = await client.PostAsync("/v2/oauth/accessToken", formData);
             if (response.IsSuccessStatusCode)
             {
                 string responseBody = await response.Content.ReadAsStringAsync();

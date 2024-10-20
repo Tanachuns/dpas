@@ -40,6 +40,9 @@ jobs:
           Api.Weather.BaseUrl: ${{ secrets.API_WEATHER_BASEAPI }}
           Api.Weather.ApiKey: ${{ secrets.API_WEATHER_APIKEY }}
           Api.USGS.BaseUrl: ${{ secrets.API_USGS_BASEAPI }}
+          Line.BaseUrl: ${{ secrets.LINE_BASEAPI }}
+          Line.ClientId: ${{ secrets.LINE_CLIENTID }}
+          Line.ClientSecret: ${{ secrets.LINE_CLIENT_SECRET }}
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4

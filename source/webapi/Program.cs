@@ -10,7 +10,7 @@ IConfiguration configuration = builder.Configuration;
 //Logs
 Log.Logger = new LoggerConfiguration()
     .WriteTo.ApplicationInsights(configuration["ConnectionStrings:LogConnection"],
-    TelemetryConverter.Events)
+    TelemetryConverter.Traces)
     .CreateLogger();
 
 var app = builder.Build();

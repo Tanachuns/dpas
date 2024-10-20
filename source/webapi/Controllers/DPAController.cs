@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -8,6 +9,7 @@ using Serilog;
 using server.Models;
 using webapi.Models;
 using webapi.Models.Entities;
+using static LineMessageService;
 using static RiskCalculationService;
 
 namespace webapi.Controllers;
@@ -66,6 +68,7 @@ public class DPAController : Controller
         catch (Exception ex)
         {
             Log.Error("Error Message: {ErrorMessage}", ex.Message);
+            BaseResponse res = new BaseResponse(false, ex.Message);
             return Problem(ex.Message);
         }
     }
@@ -109,6 +112,7 @@ public class DPAController : Controller
         catch (Exception ex)
         {
             Log.Error("Error Message: {ErrorMessage}", ex.Message);
+            BaseResponse res = new BaseResponse(false, ex.Message);
             return Problem(ex.Message);
         }
     }
@@ -152,6 +156,7 @@ public class DPAController : Controller
         catch (Exception ex)
         {
             Log.Error("Error Message: {ErrorMessage}", ex.Message);
+            BaseResponse res = new BaseResponse(false, ex.Message);
             return Problem(ex.Message);
         }
     }
@@ -162,13 +167,36 @@ public class DPAController : Controller
     {
         try
         {
+            LineMessageService messageService = new LineMessageService();
+            LineMessageConfig config = new LineMessageConfig()
+            {
+                ClientId = Configuration["Line:ClientId"],
+                ClientSecret = Configuration["Line:ClientSecret"],
+                BaseUrl = Configuration["Line:BaseUrl"]
+            };
 
+            AppDbContext ctx = new AppDbContext(Configuration);
+            AlertEntity[] alerts = ctx.Alerts.Include(a => a.RegionId).Where(a => !a.AlertTriggered & a.RiskLevel.Equals("High")).ToArray();
+            if (alerts.Length > 0)
+            {
+                if (!await messageService.Broadcast(config, alerts))
+                {
+                    throw new Exception("MessageAPI Error.");
+                }
+                foreach (var alert in alerts)
+                {
+                    alert.AlertTriggered = true;
+                }
+                ctx.SaveChanges();
+                return Ok(new BaseResponse(true));
+            }
+            return Ok(new BaseResponse(true, errorMessage: "No Alert Need to Send."));
 
-            return Ok();
         }
         catch (Exception ex)
         {
             Log.Error("Error Message: {ErrorMessage}", ex.Message);
+            BaseResponse res = new BaseResponse(false, ex.Message);
             return Problem(ex.Message);
         }
     }
