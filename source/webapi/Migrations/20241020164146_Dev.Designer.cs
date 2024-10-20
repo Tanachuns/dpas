@@ -12,7 +12,7 @@ using server.Models;
 namespace webapi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241020104757_Dev")]
+    [Migration("20241020164146_Dev")]
     partial class Dev
     {
         /// <inheritdoc />
@@ -52,6 +52,12 @@ namespace webapi.Migrations
                     b.Property<decimal>("RiskScore")
                         .HasColumnType("numeric");
 
+                    b.Property<int>("TransactionId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("TransactionId"));
+
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -74,6 +80,7 @@ namespace webapi.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("DisasterType")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("RegionId")

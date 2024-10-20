@@ -16,6 +16,7 @@ namespace webapi.Models
         public string? RiskLevel { get; set; } //High - Medium - Low
         //AlertTriggered
         public bool AlertTriggered { get; set; }
+        public DisasterRiskResponse() { }
         public DisasterRiskResponse(AlertEntity alert)
         {
             RegionId = alert.RegionId.RegionId;
@@ -24,6 +25,7 @@ namespace webapi.Models
             RiskLevel = alert.RiskLevel;
             AlertTriggered = alert.AlertTriggered;
         }
+
     }
 
 }

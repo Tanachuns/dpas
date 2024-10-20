@@ -49,6 +49,12 @@ namespace webapi.Migrations
                     b.Property<decimal>("RiskScore")
                         .HasColumnType("numeric");
 
+                    b.Property<int>("TransactionId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("TransactionId"));
+
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -71,6 +77,7 @@ namespace webapi.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("DisasterType")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("RegionId")

@@ -7,6 +7,7 @@ public class AlertEntity : BaseEntity
 {
     [JsonIgnore]
     public int Id { get; set; }
+    public int TransactionId { get; set; }
     //RegionId
     public required RegionEntity RegionId { get; set; }
     //DisasterType
