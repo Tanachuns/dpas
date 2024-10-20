@@ -9,8 +9,7 @@ builder.Services.AddControllersWithViews();
 IConfiguration configuration = builder.Configuration;
 //Logs
 Log.Logger = new LoggerConfiguration()
-    .WriteTo.ApplicationInsights(configuration["ConnectionStrings:LogConnection"],
-    TelemetryConverter.Traces)
+    .WriteTo.ApplicationInsights(configuration["ConnectionStrings:LogConnection"], new Serilog.Sinks.ApplicationInsights.TelemetryConverters.TraceTelemetryConverter())
     .CreateLogger();
 
 var app = builder.Build();

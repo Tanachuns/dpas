@@ -105,14 +105,25 @@ public class DPAController : Controller
                     Log.Error("Error Message: {ErrorMessage}", res.ErrorMessage);
                     return BadRequest(res);
                 }
-
-                AlertSettingEntity alert = new AlertSettingEntity()
+                AlertSettingEntity alert;
+                AlertSettingEntity alertSetting = ctx.AlertSettings.FirstOrDefault(a => a.DisasterType == req.DisasterType & a.RegionID.RegionId == req.RegionId);
+                if (alertSetting == null)
                 {
-                    RegionID = region,
-                    DisasterType = req.DisasterType,
-                    ThresholdScore = req.ThresholdScore
-                };
-                ctx.AlertSettings.Add(alert);
+                    alert = new AlertSettingEntity()
+                    {
+                        RegionID = region,
+                        DisasterType = req.DisasterType,
+                        ThresholdScore = req.ThresholdScore
+                    };
+                    ctx.AlertSettings.Add(alert);
+                }
+                else
+                {
+                    alertSetting.ThresholdScore = req.ThresholdScore;
+                    alert = alertSetting;
+                    ctx.AlertSettings.Update(alert);
+                }
+
 
             }
             // > Save ==> 203
