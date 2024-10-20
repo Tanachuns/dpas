@@ -39,7 +39,7 @@ Github Repository: https://github.com/Tanachuns/dpa-api
 
 Presentation Video: NA
 
-API Url:
+API Url: [https://dpa.tanabythepond.dev](https://dpa.tanabythepond.dev/)
 
 ## Todos
 
@@ -47,12 +47,12 @@ API Url:
 - [x] Setup CI/CD
 - [x] Setup Database
 - [x] Setup Logs Integrated with Azure
-- [ ] Setup redis
+- [x] Setup redis
 - [x] [POST] /api/regions
 - [x] [POST] /api/alert-settings
 - [x] [GET] /api/disaster-risks
-- [ ] [POST] /api/alerts/send
-- [ ] [GET] /api/alerts
+- [x] [POST] /api/alerts/send
+- [x] [GET] /api/alerts
 
 ## API Ref
 
@@ -61,7 +61,15 @@ https://earthquake.usgs.gov/fdsnws/event/1/
 - Weather: https://openweathermap.org/
 - Messaging API: https://sendgrid.com/
 
-## Risk Level
+## Risk Calculation
+
+**Risk Criteria**
+
+- Flood: Raining rates
+- EarthQuake: Magnitude
+- Wildfire: 100 - Humidity + Temp
+
+**Risk Level**
 
 - Low = score < threshold / 3
 - Mid = score < threshold \* (2 / 3)
@@ -75,3 +83,5 @@ https://earthquake.usgs.gov/fdsnws/event/1/
 - [Tutorial: Containerize a .NET app](https://learn.microsoft.com/en-us/dotnet/core/docker/build-container?tabs=linux&pivots=dotnet-8-0)
 - [Cache Strategies | Medium](https://medium.com/@mmoshikoo/cache-strategies-996e91c80303)
 - [Enable Azure Monitor OpenTelemetry for .NET, Java, Node.js, and Python applications - Azure Monitor | Microsoft Learn](https://learn.microsoft.com/en-us/azure/azure-monitor/app/opentelemetry-enable?tabs=aspnetcore#enable-azure-monitor-opentelemetry-for-net-nodejs-python-and-java-applications)
+- https://www.youtube.com/watch?app=desktop&v=LW65eQ2SFJU
+- [C#/.NET guide | Docs (redis.io)](https://redis.io/docs/latest/develop/connect/clients/dotnet/)
