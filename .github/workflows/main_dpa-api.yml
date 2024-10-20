@@ -37,6 +37,9 @@ jobs:
         env:
           ConnectionStrings.DefaultConnection: ${{ secrets.CONNECTION_STRING }}
           ConnectionStrings.LogConnection: ${{ secrets.LOGS_CONNECTION_STRING }}
+          Api.Weather.BaseUrl: ${{ secrets.API_WEATHER_BASEAPI }}
+          Api.Weather.ApiKey: ${{ secrets.API_WEATHER_APIKEY }}
+          Api.USGS.BaseUrl: ${{ secrets.API_USGS_BASEAPI }}
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4

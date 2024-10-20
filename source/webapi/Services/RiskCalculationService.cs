@@ -23,6 +23,21 @@ public class RiskCalculationService
 
     public static string GetLevel(decimal threshold, decimal score)
     {
-        return "test";
+        if (score < threshold / 3)
+        {
+            return "Low";
+        }
+        else if (score < threshold * (2 / 3))
+        {
+            return "Medium";
+        }
+        else if (score >= threshold)
+        {
+            return "High";
+        }
+        else
+        {
+            return "Error";
+        }
     }
 }
