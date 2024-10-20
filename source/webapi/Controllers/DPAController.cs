@@ -8,6 +8,7 @@ using Serilog;
 using server.Models;
 using webapi.Models;
 using webapi.Models.Entities;
+using static RiskCalculationService;
 
 namespace webapi.Controllers;
 
@@ -125,13 +126,19 @@ public class DPAController : Controller
             AlertSettingEntity[] alerts = ctx.AlertSettings.Include(a => a.RegionID).ToArray();
             //loop
             List<AlertEntity> alertEntities = new List<AlertEntity>();
+            RiskCalculationConfig riskConfig = new RiskCalculationConfig()
+            {
+                WeatherBaseUrl = Configuration["Api:Weather:BaseUrl"].ToString(),
+                WeatherApiKey = Configuration["Api:Weather:ApiKey"].ToString(),
+                USGSBaseUrl = Configuration["Api:USGS:BaseUrl"].ToString(),
+            };
             foreach (AlertSettingEntity alert in alerts)
             {
                 AlertEntity alertEntity = new AlertEntity()
                 {
                     RegionId = alert.RegionID,
                     DisasterType = alert.DisasterType,
-                    RiskScore = await RiskCalculationService.CalcurateAsync(Configuration, alert.DisasterType, alert.RegionID.Latitude, alert.RegionID.Longitude),
+                    RiskScore = await RiskCalculationService.CalcurateAsync(riskConfig, alert.DisasterType, alert.RegionID.Latitude, alert.RegionID.Longitude),
                     AlertTriggered = false,
                 };
                 alertEntity.RiskLevel = RiskCalculationService.GetLevel(alert.ThresholdScore, alertEntity.RiskScore);
@@ -141,6 +148,23 @@ public class DPAController : Controller
             ctx.SaveChanges();
 
             return Ok(alertEntities.Select(a => new DisasterRiskResponse(a)).ToArray());
+        }
+        catch (Exception ex)
+        {
+            Log.Error("Error Message: {ErrorMessage}", ex.Message);
+            return Problem(ex.Message);
+        }
+    }
+
+    [HttpPost]
+    [Route("/api/alerts/send")]
+    public async Task<IActionResult> SendDisaster()
+    {
+        try
+        {
+
+
+            return Ok();
         }
         catch (Exception ex)
         {

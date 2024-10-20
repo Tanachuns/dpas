@@ -2,9 +2,9 @@
 
 public class RiskCalculationService
 {
-    public static async Task<decimal> CalcurateAsync(IConfiguration configuration, string disasterType, decimal lat, decimal lon)
+    public static async Task<decimal> CalcurateAsync(RiskCalculationConfig configuration, string disasterType, decimal lat, decimal lon)
     {
-        WeatherApiService weatherData = new WeatherApiService(configuration["Api:Weather:BaseUrl"].ToString(), configuration["Api:Weather:ApiKey"].ToString(), configuration["Api:USGS:BaseUrl"].ToString());
+        WeatherApiService weatherData = new WeatherApiService(configuration.WeatherBaseUrl, configuration.WeatherApiKey, configuration.USGSBaseUrl);
         switch (disasterType.ToLower())
         {
             case "earthquake":
@@ -39,5 +39,12 @@ public class RiskCalculationService
         {
             return "Error";
         }
+    }
+
+    public class RiskCalculationConfig
+    {
+        public required string WeatherBaseUrl { get; set; }
+        public required string WeatherApiKey { get; set; }
+        public required string USGSBaseUrl { get; set; }
     }
 }
