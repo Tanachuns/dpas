@@ -33,11 +33,11 @@ You are tasked with building a Disaster Prediction and Alert System API for a go
 
 Start Date: 15/10/24
 
-End Date: NA
+End Date: 21/10/24
 
 Github Repository: https://github.com/Tanachuns/dpa-api
 
-Presentation Video: NA
+Presentation Video: [https://www.youtube.com/watch?v=pajlCtBEIAc](https://www.youtube.com/watch?v=pajlCtBEIAc)
 
 API Url: [https://dpa.tanabythepond.dev](https://dpa.tanabythepond.dev/)
 
