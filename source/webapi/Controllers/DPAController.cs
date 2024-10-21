@@ -43,9 +43,18 @@ public class DPAController : Controller
             Log.Information("Request {request}", JsonConvert.SerializeObject(request));
             // > Setup Context
             var ctx = new AppDbContext(Configuration);
+
             // ====== Loop ======
             foreach (var req in request)
             {
+                //check disasertype
+                if (req.DisasterTypes == null || req.DisasterTypes.Length <= 0)
+                {
+                    BaseResponse res = new BaseResponse(false, "Disaster type is required.");
+                    Log.Error("Error Message: {ErrorMessage}", res.ErrorMessage);
+                    return BadRequest(res);
+                }
+
                 // > ID Already Exist => 400
                 RegionEntity[] _region = ctx.Regions.Where(r => r.RegionId.Equals(req.RegionId)).ToArray();
                 if (_region.Length > 0)
@@ -156,6 +165,7 @@ public class DPAController : Controller
                 WeatherBaseUrl = Configuration["Api:Weather:BaseUrl"] ?? throw new Exception("Configuation is null."),
                 WeatherApiKey = Configuration["Api:Weather:ApiKey"] ?? throw new Exception("Configuation is null."),
                 USGSBaseUrl = Configuration["Api:USGS:BaseUrl"] ?? throw new Exception("Configuation is null."),
+                RedisConnectionString = Configuration["ConnectionStrings:RedisConnection"] ?? throw new Exception("Configuation is null.")
             };
             foreach (AlertSettingEntity alert in alerts)
             {
@@ -241,9 +251,9 @@ public class DPAController : Controller
         {
             // Setup Ctx
             AppDbContext ctx = new AppDbContext(Configuration);
+            //redis
             ConnectionMultiplexer redis = ConnectionMultiplexer.Connect(Configuration["ConnectionStrings:RedisConnection"] ?? throw new Exception("Configuation is null."));
             IDatabase db = redis.GetDatabase();
-
             string cacheString = db.StringGet("lastestAlerts").ToString();
             //string cacheString = "";
             if (!string.IsNullOrEmpty(cacheString))

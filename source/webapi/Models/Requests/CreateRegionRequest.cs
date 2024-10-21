@@ -8,7 +8,7 @@ public class CreateRegionRequest
     //Location Coordinates: Latitude and longitude of the region.
     public required Coordinate LocationCoordination { get; set; }
     //Disaster Types: List of disaster types to monitor (e.g., flood, wildfire, earthquake).
-    public required string[] DisasterTypes { get; set; }
+    public string[] DisasterTypes { get; set; }
 }
 
 

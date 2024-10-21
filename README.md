@@ -27,7 +27,7 @@ You are tasked with building a Disaster Prediction and Alert System API for a go
 
 **Logs**: Serilog integrate with Azure
 
-**Others:** Notion, Docker, Github
+**Others:** Notion, Github
 
 ## Submission
 
