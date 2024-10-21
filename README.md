@@ -56,10 +56,9 @@ API Url: [https://dpa.tanabythepond.dev](https://dpa.tanabythepond.dev/)
 
 ## API Ref
 
-https://earthquake.usgs.gov/fdsnws/event/1/
-
 - Weather: https://openweathermap.org/
-- Messaging API: https://sendgrid.com/
+- Earthquake: https://.usgs.gov/fdsnws/event/1/
+- Messaging API: https://developers.line.biz/en/services/messaging-api/
 
 ## Risk Calculation
 
